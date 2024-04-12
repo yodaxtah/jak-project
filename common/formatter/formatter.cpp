@@ -424,17 +424,17 @@ std::optional<std::string> formatter::format_code(const std::string& source) {
     // There are three phases of formatting
     // 1. Simplify the AST down to something that is easier to work on from a formatting perspective
     // this also gathers basic metadata that can be done at this stage, like if the token is a
-    // comment or if the form is on the top-level
+    // comment or if the form is on the top-level.
     auto formatting_tree = FormatterTree(source, root_node);
     // 2. Recursively iterate through this simplified FormatterTree and figure out what rules
-    // need to be applied to produce an optimal result
+    // need to be applied to produce an optimal result.
     apply_formatting_config(formatting_tree.root);
     // 3. Use this updated FormatterTree to print out the final source-code, while doing so
     // we may deviate from the optimal result to produce something even more optimal by inlining
     // forms that can fit within the line width.
     const auto formatted_lines = apply_formatting(formatting_tree.root);
-    // 4. Now we joint he lines together, it's easier when formatting to leave all lines independent
-    // so adding indentation is easier
+    // 4. Now we join the lines together; it's easier when formatting to leave all lines independent
+    // so adding indentation is easier.
     const auto formatted_source =
         join_formatted_lines(formatted_lines, file_util::get_majority_file_line_endings(source));
     return formatted_source;
